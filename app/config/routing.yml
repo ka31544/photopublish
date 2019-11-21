@@ -4,3 +4,15 @@ app:
 
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
+_dashboard:
+    path: /
+    defaults: { _controller: AppBundle:Dashboard:index }
+
+_search:
+    path: /szukaj
+    defaults: { _controller: AppBundle:Search:index }
+
+_photoSession:
+    path: /sesje-zdjeciowe
+    defaults: { _controller: AppBundle:PhotoSession:index }

@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -49,7 +50,6 @@ class StatusHistory
      */
     private $date;
 
-
     /**
      * Get id
      *
@@ -61,6 +61,22 @@ class StatusHistory
     }
 
     /**
+     * Set status
+     *
+     * @param Status $status
+     *
+     * @return StatusHistory
+     */
+    public function setStatus(Status $status = null)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
      * @return Status
      */
     public function getStatus()
@@ -130,4 +146,3 @@ class StatusHistory
         return $this->date;
     }
 }
-

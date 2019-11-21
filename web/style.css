@@ -1,3 +1,104 @@
-@import url(~bootstrap/dist/css/bootstrap.css);
+/* Basic styles */
+body {
+  background-color: #ffffff;
+  font-family: "Helvetica Neue", sans-serif; }
+
+a {
+  color: inherit;
+  text-decoration: none; }
+  a:hover {
+    color: inherit;
+    text-decoration: none; }
+
+h1 {
+  padding-left: .75rem;
+  margin-bottom: 3rem; }
+
+.no-padding {
+  padding: 0; }
+
+main {
+  background-color: #ffffff;
+  padding-top: 1rem;
+  padding-bottom: 1rem; }
+  @media (max-width: 991px) {
+    main {
+      padding-top: 4rem; } }
+  @media (min-width: 992px) {
+    main {
+      padding-left: 5rem !important;
+      padding-right: 5rem !important; } }
+
+.fa-mr {
+  margin-right: .75rem; }
+
+/* Navigation */
+nav {
+  min-height: 100vh;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  box-shadow: 2px 0 4px #343a40;
+  z-index: 100;
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: fixed !important; }
+  @media only screen and (max-width: 991px) {
+    nav {
+      min-height: auto; } }
+
+@media (min-width: 992px) {
+  .navbar-expand-lg {
+    -ms-flex-flow: row nowrap;
+    flex-flow: row nowrap;
+    -ms-flex-pack: start;
+    justify-content: center; } }
+.nav__main {
+  text-align: center;
+  border-bottom: 1px solid #696969; }
+  .nav__main .nav-link {
+    padding: 1rem;
+    border-top: 1px solid #696969; }
+    .nav__main .nav-link.active {
+      background-color: #626a6e; }
+
+.nav-link__padding--right {
+  position: relative;
+  padding-right: 1.5rem !important; }
+
+.fa__absolute--right {
+  position: absolute;
+  top: 1.25rem;
+  right: .5rem; }
+
+.logo {
+  width: 200px; }
+
+/* Content */
+.title {
+  text-align: center; }
+
+/* Content panel */
+.history__element {
+  padding: 1rem 0;
+  border-bottom: 1px solid #696969;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center; }
+
+.history__img {
+  width: 20%;
+  height: auto; }
+
+.history__description {
+  font-size: .9rem;
+  width: 50%;
+  padding: 0 1rem;
+  margin: 0; }
+
+.history__details {
+  width: 30%;
+  text-align: right; }
 
 /*# sourceMappingURL=style.css.map */
