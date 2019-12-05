@@ -5,9 +5,8 @@ namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-class DefaultController extends Controller
+class DashboardController extends Controller
 {
-    
     public function indexAction(Request $request)
     {
         $statusHistory = $this->getDoctrine()->getManager()->getRepository('AppBundle:StatusHistory')->findAll();

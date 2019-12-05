@@ -10,4 +10,5 @@ namespace AppBundle\Repository;
  */
 class StatusHistoryRepository extends \Doctrine\ORM\EntityRepository
 {
+
 }
