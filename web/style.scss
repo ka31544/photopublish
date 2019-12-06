@@ -6,6 +6,7 @@ $desktop: '(min-width: 992px)';
 /* Basic styles */
 body {
     background-color: #ffffff;
+    color: $color-primary;
     font-family: "Helvetica Neue", sans-serif;
 }
 
@@ -43,9 +44,12 @@ main {
 .fa-mr { //Fontawesome - margin right
     margin-right: .75rem;
 }
+.fa-ml { //Fontawesome - margin left
+    margin-left: .75rem;
+}
 
 /* Navigation */
-nav {
+.navbar {
     min-height: 100vh;
     padding-left: 0 !important;
     padding-right: 0 !important;
@@ -55,15 +59,9 @@ nav {
     overflow-y: auto;
     position: fixed !important;
     @media only screen and (max-width: 991px)  {
+        width: 100%;
         min-height: auto;
-    }
-}
-@media (min-width: 992px) {
-    .navbar-expand-lg {
-        -ms-flex-flow: row nowrap;
-        flex-flow: row nowrap;
-        -ms-flex-pack: start;
-        justify-content: center;
+        overflow-y: scroll;
     }
 }
 .nav__main {
@@ -90,12 +88,24 @@ nav {
     width: 200px;
 }
 
+.nav__profile {
+    padding: 1rem 0;
+    .nav-item {
+        padding: 1rem 0;
+    }
+}
+.img-user {
+    width: 100px;
+    height: auto;
+    margin-bottom: .5rem;
+}
+
 /* Content */
 .title {
     text-align: center;
 }
 
-/* Content panel */
+/* Content panel history*/
 .history__element {
     padding: 1rem 0;
     border-bottom: $border-primary;
@@ -118,4 +128,41 @@ nav {
 .history__details {
     width: 30%;
     text-align: right;
+}
+
+/* Content panel tasks */
+.task__element {
+    width: 150px;
+    height: 100px;
+    position: relative;
+    &:hover {
+        .task__button {
+            -webkit-transform: scale(1);
+            -moz-transform: scale(1);
+            -ms-transform: scale(1);
+            -o-transform: scale(1);
+            transform: scale(1);
+        }
+    }
+}
+.task__img {
+    width: 150px;
+    height: auto
+}
+.task__button {
+    width: 5rem;
+    height: 2.5rem;
+    position: absolute;
+    top: calc(50% - 1.25rem);
+    left: calc(50% - 2.5rem);
+    -webkit-transform: scale(0);
+    -moz-transform: scale(0);
+    -ms-transform: scale(0);
+    -o-transform: scale(0);
+    transform: scale(0);
+    -webkit-transition: transform .3s .2s;
+    -moz-transition: transform .3s .2s;
+    -ms-transition: transform .3s .2s;
+    -o-transition: transform .3s .2s;
+    transition: transform .3s .2s;
 }

@@ -36,14 +36,14 @@ class Photo
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="uploadAt", type="datetime")
+     * @ORM\Column(name="uploadAt", type="datetime", nullable=true)
      */
     private $uploadAt;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="modifiedAt", type="datetime")
+     * @ORM\Column(name="modifiedAt", type="datetime", nullable=true)
      */
     private $modifiedAt;
 
@@ -61,7 +61,8 @@ class Photo
      */
     public function __construct()
     {
-        $this->photosOfPhotoShoot = new ArrayCollection();
+//        $this->photosOfPhotoShoot = new ArrayCollection();
+        $this->uploadAt = new \DateTime();
     }
 
 

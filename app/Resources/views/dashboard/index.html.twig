@@ -6,12 +6,26 @@
 
 {% block body %}
     <div class="row">
-        <div class="col-lg-6"></div>
+        <div class="col-lg-6 d-flex flex-column">
+        {% if is_granted('ROLE_PHOTOGRAPHER') %}
+            <a href="{{ path('photo_new') }}" class="btn btn-primary mb-5">Dodaj zdjęcie<i class="fas fa-upload fa-ml"></i></a>
+            {% if photosForPhotographer|length > 0 %}
+            <div class="d-flex flex-row justify-content-center">
+                {% for photo in photosForPhotographer %}
+                <div class="task__element">
+                    <img src="{{ photo.src }}" alt="" class="task__img">
+                    <a href="{{ path('photo_show', { 'id': photo.id }) }}" class="btn btn-primary task__button">Kliknij</a>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        {% endif %}
+        </div>
         <div class="col-lg-6">
             {% for element in statusHistory %}
             <div class="history__element">
                 <img src="{{ element.photo.src }}" alt="" class="history__img">
-                <p class="history__description"><strong>{{ element.user|upper }}</strong> zmienił status na <strong>{{ element.status.name }}</strong></p>
+                <p class="history__description"><strong>{{ element.user.lastname|upper }}</strong> zmienił status na <strong>{{ element.status.name }}</strong></p>
                 <div class="history__details">
                     <div><i class="far fa-calendar-alt fa-mr"></i>{{ element.date|date('d/m/Y') }}</div>
                     <div><i class="far fa-clock fa-mr"></i>{{ element.date|date('H:i') }}</div>
