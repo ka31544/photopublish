@@ -18,7 +18,7 @@ class Product
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\OneToMany(targetEntity="PhotosOfProduct", mappedBy="product")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\PhotosOfProduct", mappedBy="product")
      */
     private $id;
 
@@ -39,7 +39,7 @@ class Product
     /**
      * @var Photo
      *
-     * @ORM\ManyToOne(targetEntity="Photo", inversedBy="id")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Photo", inversedBy="id")
      */
     private $defaultPhoto;
 

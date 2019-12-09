@@ -24,21 +24,21 @@ class StatusHistory
     /**
      * @var Status
      *
-     * @ORM\ManyToOne(targetEntity="Status", inversedBy="id")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Status", inversedBy="id")
      */
     private $status;
 
     /**
      * @var Photo
      *
-     * @ORM\ManyToOne(targetEntity="Photo", inversedBy="id")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Photo", inversedBy="id")
      */
     private $photo;
 
     /**
      * @var User
      *
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="id")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="id")
      */
     private $user;
 
@@ -48,6 +48,14 @@ class StatusHistory
      * @ORM\Column(name="date", type="datetime")
      */
     private $date;
+
+    /**
+     * StatusHistory constructor.
+     */
+    public function __construct()
+    {
+        $this->date = new \DateTime();
+    }
 
     /**
      * Get id
@@ -84,17 +92,11 @@ class StatusHistory
     }
 
     /**
-     * Set photo
-     *
-     * @param integer $photo
-     *
-     * @return StatusHistory
+     * @param Photo $photo
      */
     public function setPhoto($photo)
     {
         $this->photo = $photo;
-
-        return $this;
     }
 
     /**

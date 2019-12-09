@@ -20,7 +20,6 @@ class Photo
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\OneToMany(targetEntity="PhotoShoot", mappedBy="defaultPhoto")
-     * @ORM\OneToMany(targetEntity="StatusHistory", mappedBy="photo")
      * @ORM\OneToMany(targetEntity="Product", mappedBy="defaultPhoto")
      * @ORM\OneToMany(targetEntity="PhotosOfProduct", mappedBy="photo")
      */
@@ -48,6 +47,20 @@ class Photo
     private $modifiedAt;
 
     /**
+     * @var Status
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Status", inversedBy="id")
+     */
+    private $activeStatus;
+
+    /**
+     * @var User
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     */
+    private $assignedPhotographer;
+
+    /**
      * @ORM\OneToOne(
      *     targetEntity="PhotosOfPhotoShoot",
      *     mappedBy="photo",
@@ -57,14 +70,23 @@ class Photo
     private $photosOfPhotoShoot;
 
     /**
+     * @ORM\OneToMany(
+     *     targetEntity="AppBundle\Entity\StatusHistory",
+     *     mappedBy="photo",
+     *     orphanRemoval=true
+     * )
+     */
+    private $photoStatusHistory;
+
+    /**
      * Photo constructor.
      */
     public function __construct()
     {
 //        $this->photosOfPhotoShoot = new ArrayCollection();
+        $this->photoStatusHistory = new ArrayCollection();
         $this->uploadAt = new \DateTime();
     }
-
 
     /**
      * Get id
@@ -149,11 +171,51 @@ class Photo
     }
 
     /**
+     * @param Status $activeStatus
+     */
+    public function setActiveStatus($activeStatus)
+    {
+        $this->activeStatus = $activeStatus;
+    }
+
+    /**
+     * @return Status
+     */
+    public function getActiveStatus()
+    {
+        return $this->activeStatus;
+    }
+
+    /**
+     * @param User $assignedPhotographer
+     */
+    public function setAssignedPhotographer($assignedPhotographer)
+    {
+        $this->assignedPhotographer = $assignedPhotographer;
+    }
+
+    /**
+     * @return User
+     */
+    public function getAssignedPhotographer()
+    {
+        return $this->assignedPhotographer;
+    }
+
+    /**
      * @return ArrayCollection
      */
     public function getPhotosOfPhotoShoot()
     {
         return $this->photosOfPhotoShoot;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getPhotoStatusHistory()
+    {
+        return $this->photoStatusHistory;
     }
 }
 

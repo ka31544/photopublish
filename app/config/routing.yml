@@ -20,3 +20,7 @@ _search:
 _photoSession:
     path: /sesje-zdjeciowe
     defaults: { _controller: AppBundle:PhotoSession:index }
+
+_statusHistory:
+    path: /status-history
+    defaults: { _controller: AppBundle:StatusHistory:index }

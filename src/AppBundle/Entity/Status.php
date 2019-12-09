@@ -18,7 +18,8 @@ class Status
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\OneToMany(targetEntity="StatusHistory", mappedBy="status")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\StatusHistory", mappedBy="status")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Photo", mappedBy="activeStatus")
      */
     private $id;
 

@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block h2 %}
+    <h2 class="title">Zdjęcie nr {{ photo.id }}</h2>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-6">
+            <a href="{{ photo.src }}" target="_blank"><img src="{{ photo.src }}" alt="Zdjęcie zadania" class="img-fluid mb-3"></a>
+        {% if is_granted('ROLE_LEADER') %}
+            {% if photo.activeStatus.id == 1 %}
+                <a href="{{ path('photo_accept', { 'id': photo.id }) }}" class="btn btn-success mb-3">Zaakceptuj zdjęcie<i class="fas fa-image fa-ml"></i></a>
+                <a href="{{ path('photo_not_accept', { 'id': photo.id }) }}" class="btn btn-danger mb-3">Nieakceptuj zdjęcia<i class="fas fa-image fa-ml"></i></a>
+            {% endif %}
+        {% endif %}
+            <table class="mb-3">
+                <tbody>
+                <tr>
+                    <th><i class="fas fa-upload fa-mr"></i>Upload</th>
+                    <td>{% if photo.uploadAt %}<i class="fas fa-calendar-alt fa-mr"></i>{{ photo.uploadAt|date('d/m/Y') }}<i class="far fa-clock fa-mr ml-3"></i>{{ photo.uploadAt|date('H:i:s') }}{% endif %}</td>
+                </tr>
+                <tr>
+                    <th><i class="fas fa-edit fa-mr"></i>Modyfikowano</th>
+                    <td>{% if photo.modifiedAt %}<i class="fas fa-calendar-alt fa-mr"></i>{{ photo.modifiedAt|date('d/m/Y') }}<i class="far fa-clock fa-mr ml-3"></i>{{ photo.modifiedAt|date('H:i:s') }}{% endif %}</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <a href="{{ path('photo_edit', { 'id': photo.id }) }}" class="btn btn-info mb-3">Edytuj<i class="fas fa-edit fa-ml"></i></a>
+            {{ form_start(delete_form) }}
+            <input type="submit" value="Usuń" class="btn btn-danger mb-3">
+            {{ form_end(delete_form) }}
+            <a href="{{ path('_dashboard') }}" class="btn btn-danger mb-3"><i class="fas fa-chevron-left fa-mr"></i>Cofnij</a>
+        </div>
+        <div class="col-lg-6">
+            <div class="d-flex flex-column flex-column justify-content-center">
+                <h3><i class="fas fa-history fa-mr"></i>Historia statusów</h3>
+            </div>
+            {% for element in photo.photoStatusHistory %}
+                <div class="history__element">
+                    <img src="{{ element.photo.src }}" alt="" class="history__img">
+                    <p class="history__description"><strong>{{ element.user.lastname|upper }}</strong> zmienił status na <strong>{{ element.status.name }}</strong></p>
+                    <div class="history__details">
+                        <div><i class="far fa-calendar-alt fa-mr"></i>{{ element.date|date('d/m/Y') }}</div>
+                        <div><i class="far fa-clock fa-mr"></i>{{ element.date|date('H:i:s') }}</div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

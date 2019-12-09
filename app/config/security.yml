@@ -6,8 +6,8 @@ security:
         ROLE_PHOTOGRAPHER:  [ROLE_USER, ROLE_PHOTOGRAPHER]
         ROLE_RETOUCHER:     [ROLE_USER, ROLE_RETOUCHER]
         ROLE_WEBMASTER:     [ROLE_USER, ROLE_WEBMASTER]
-        ROLE_ADMIN:         [ROLE_PHOTOGRAPHER, ROLE_RETOUCHER, ROLE_WEBMASTER]
-        ROLE_SUPER_ADMIN:   ROLE_ADMIN
+        ROLE_ADMIN:         [ROLE_USER, ROLE_LEADER]
+        ROLE_SUPER_ADMIN:   [ROLE_PHOTOGRAPHER, ROLE_RETOUCHER, ROLE_WEBMASTER, ROLE_ADMIN]
 
     providers:
         fos_userbundle:
@@ -30,6 +30,6 @@ security:
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_ADMIN }
-        - { path:  ^/(css | js ),  role:  IS_AUTHENTICATED_ANONYMOUSLY  }
-        - { path:  ^/(_ wdt | _profiler),  role:  IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path:  ^/,  role:  ROLE_USER  }
+        - { path: ^/(css | js), role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/(_ wdt | _profiler), role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, role: ROLE_USER }

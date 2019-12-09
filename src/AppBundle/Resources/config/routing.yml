@@ -1,0 +1,7 @@
+app_photo:
+    resource: "@AppBundle/Resources/config/routing/photo.yml"
+    prefix:   /photo
+
+app_user:
+    resource: "@AppBundle/Resources/config/routing/user.yml"
+    prefix:   /user

@@ -1,0 +1,34 @@
+photo_index:
+    path:     /
+    defaults: { _controller: "AppBundle:Photo:index" }
+    methods:  GET
+
+photo_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Photo:show" }
+    methods:  GET
+
+photo_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:Photo:new" }
+    methods:  [GET, POST]
+
+photo_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:Photo:edit" }
+    methods:  [GET, POST]
+
+photo_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:Photo:delete" }
+    methods:  DELETE
+
+photo_accept:
+    path:     /{id}/accept
+    defaults: { _controller: "AppBundle:Photo:acceptPhoto" }
+    methods:  [GET, POST]
+
+photo_not_accept:
+    path:     /{id}/not-accept
+    defaults: { _controller: "AppBundle:Photo:notAcceptPhoto" }
+    methods:  [GET, POST]

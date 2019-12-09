@@ -7,13 +7,39 @@
 {% block body %}
     <div class="row">
         <div class="col-lg-6 d-flex flex-column">
+            <h3 class="mb-3"><i class="fas fa-tasks fa-mr"></i>Twoje zadania</h3>
         {% if is_granted('ROLE_PHOTOGRAPHER') %}
             <a href="{{ path('photo_new') }}" class="btn btn-primary mb-5">Dodaj zdjęcie<i class="fas fa-upload fa-ml"></i></a>
+            {% if photosNotAcceptedForPhotographer|length > 0 %}
+            <h4>Niezaakceptowane</h4>
+            <div class="d-flex flex-row flex-wrap justify-content-center">
+                {% for photo in photosNotAcceptedForPhotographer %}
+                <div class="task__element">
+                    <img src="{{ photo.src }}" alt="Zdjęcie zadania" class="task__img">
+                    <a href="{{ path('photo_show', { 'id': photo.id }) }}" class="btn btn-primary task__button">Kliknij</a>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
             {% if photosForPhotographer|length > 0 %}
-            <div class="d-flex flex-row justify-content-center">
+            <h4>Oczekujące na akceptację</h4>
+            <div class="d-flex flex-row flex-wrap justify-content-center">
                 {% for photo in photosForPhotographer %}
                 <div class="task__element">
-                    <img src="{{ photo.src }}" alt="" class="task__img">
+                    <img src="{{ photo.src }}" alt="Zdjęcie zadania" class="task__img">
+                    <a href="{{ path('photo_show', { 'id': photo.id }) }}" class="btn btn-primary task__button">Kliknij</a>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        {% endif %}
+        {% if is_granted('ROLE_LEADER') %}
+            {% if photosForLeader|length > 0 %}
+            <h4>Zdjęcia do akceptacji</h4>
+            <div class="d-flex flex-row flex-wrap justify-content-center">
+                {% for photo in photosForLeader %}
+                <div class="task__element">
+                    <img src="{{ photo.src }}" alt="Zdjęcie zadania" class="task__img">
                     <a href="{{ path('photo_show', { 'id': photo.id }) }}" class="btn btn-primary task__button">Kliknij</a>
                 </div>
                 {% endfor %}
@@ -22,17 +48,20 @@
         {% endif %}
         </div>
         <div class="col-lg-6">
+            <div class="d-flex flex-column flex-column justify-content-center">
+                <h3><i class="fas fa-history fa-mr"></i>Historia statusów</h3>
+            </div>
             {% for element in statusHistory %}
             <div class="history__element">
                 <img src="{{ element.photo.src }}" alt="" class="history__img">
                 <p class="history__description"><strong>{{ element.user.lastname|upper }}</strong> zmienił status na <strong>{{ element.status.name }}</strong></p>
                 <div class="history__details">
                     <div><i class="far fa-calendar-alt fa-mr"></i>{{ element.date|date('d/m/Y') }}</div>
-                    <div><i class="far fa-clock fa-mr"></i>{{ element.date|date('H:i') }}</div>
+                    <div><i class="far fa-clock fa-mr"></i>{{ element.date|date('H:i:s') }}</div>
                 </div>
             </div>
             {% endfor %}
-
+            <a href="{{ path('_statusHistory') }}" class="btn btn-primary my-3"><i class="fas fa-history fa-mr"></i>Zobacz całą historię</a>
         </div>
     </div>
 {% endblock %}

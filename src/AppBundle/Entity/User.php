@@ -15,7 +15,8 @@ class User extends BaseUser
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\OneToMany(targetEntity="StatusHistory", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\StatusHistory", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Photo", mappedBy="assignedPhotographer")
      */
     protected $id;
 

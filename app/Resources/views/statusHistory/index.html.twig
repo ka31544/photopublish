@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block h2 %}
+    <h2 class="title"><i class="fas fa-history fa-mr"></i>Historia statusów</h2>
+{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-lg-8 offset-lg-2">
+    {% for element in statusHistory %}
+        <div class="history__element">
+            <img src="{{ element.photo.src }}" alt="" class="history__img">
+            <p class="history__description"><strong>{{ element.user.lastname|upper }}</strong> zmienił status na <strong>{{ element.status.name }}</strong></p>
+            <div class="history__details">
+                <div><i class="far fa-calendar-alt fa-mr"></i>{{ element.date|date('d/m/Y') }}</div>
+                <div><i class="far fa-clock fa-mr"></i>{{ element.date|date('H:i:s') }}</div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+</div>
+{% endblock %}

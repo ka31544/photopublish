@@ -42,27 +42,53 @@ main {
 }
 
 .fa-mr { //Fontawesome - margin right
-    margin-right: .75rem;
+    margin-right: .5rem;
 }
 .fa-ml { //Fontawesome - margin left
-    margin-left: .75rem;
+    margin-left: .5rem;
 }
 
 /* Navigation */
 .navbar {
-    min-height: 100vh;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
+    height: 100vh;
+    padding: 10rem 0 1rem 0;
     box-shadow: 2px 0 4px #343a40;
     z-index: 100;
     overflow-x: hidden;
     overflow-y: auto;
-    position: fixed !important;
-    @media only screen and (max-width: 991px)  {
-        width: 100%;
-        min-height: auto;
-        overflow-y: scroll;
+    position: fixed;
+    top: 0;
+    left: 0;
+    &::-webkit-scrollbar {
+        width: .5rem;
     }
+    &::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+        -moz-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+        box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: $color-primary;
+        outline: 1px solid slategrey;
+    }
+    @media (max-width: 991px)  {
+        width: 100%;
+        height: 8vh;
+        padding: .5rem 0 1rem 0;
+        overflow-y: scroll;
+        &::-webkit-scrollbar {
+            display: none;
+        }
+        &.clicked {
+            height: 100vh;
+            &::-webkit-scrollbar {
+                display: inline;
+            }
+        }
+    }
+}
+.navbar-toggler {
+    margin-left: .5rem;
 }
 .nav__main {
     text-align: center;
@@ -102,6 +128,7 @@ main {
 
 /* Content */
 .title {
+    margin-bottom: 2rem;
     text-align: center;
 }
 
@@ -132,9 +159,14 @@ main {
 
 /* Content panel tasks */
 .task__element {
-    width: 150px;
-    height: 100px;
+    width: 180px;
+    height: 120px;
+    margin: .5rem;
     position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     &:hover {
         .task__button {
             -webkit-transform: scale(1);
@@ -146,8 +178,8 @@ main {
     }
 }
 .task__img {
-    width: 150px;
-    height: auto
+    width: 180px;
+    height: auto;
 }
 .task__button {
     width: 5rem;
