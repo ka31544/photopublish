@@ -1,18 +1,3 @@
-user_index:
-    path:     /
-    defaults: { _controller: "AppBundle:User:index" }
-    methods:  GET
-
-user_show:
-    path:     /{id}/show
-    defaults: { _controller: "AppBundle:User:show" }
-    methods:  GET
-
-user_new:
-    path:     /new
-    defaults: { _controller: "AppBundle:User:new" }
-    methods:  [GET, POST]
-
 user_edit:
     path:     /{id}/edit
     defaults: { _controller: "AppBundle:User:edit" }

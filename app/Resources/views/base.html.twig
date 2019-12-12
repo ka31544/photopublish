@@ -22,40 +22,43 @@
                         <div class="d-flex flex-column">
                             <ul class="navbar-nav nav__main d-flex flex-column">
                                 <li class="navbar-brand"><a href="{{ path('_dashboard') }}"><img src="{{ asset('assets/img/logo.svg') }}" alt="Logo Photopublish" class="logo"><h1>Photopublish</h1></a></li>
+                            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                                 <li class="nav-item"><a href="{{ path('_dashboard') }}" class="nav-link nav-link__padding--right {% if app.request.get('_route') == '_dashboard' %}active{% endif %}">Dashboard<i class="fas {% if app.request.get('_route') == '_dashboard' %}fa-chevron-left{% else %}fa-chevron-right{% endif %} fa__absolute--right"></i></a></li>
                                 <li class="nav-item"><a href="" class="nav-link nav-link__padding--right">Produkty<i class="fas fa-chevron-right fa__absolute--right"></i></a></li>
                                 <li class="nav-item"><a href="{{ path('_photoSession') }}" class="nav-link nav-link__padding--right {% if app.request.get('_route') == '_photoSession' %}active{% endif %}">Sesje zdjęciowe<i class="fas {% if app.request.get('_route') == '_photoSession' %}fa-chevron-left{% else %}fa-chevron-right{% endif %} fa__absolute--right"></i></a></li>
                                 <li class="nav-item"><a href="{{ path('_search') }}" class="nav-link nav-link__padding--right {% if app.request.get('_route') == '_search' %}active{% endif %}">Szukaj<i class="fas {% if app.request.get('_route') == '_search' %}fa-chevron-left{% else %}fa-chevron-right{% endif %} fa__absolute--right"></i></a></li>
-                                <li></li>
+                            {% else %}
+                                <li class="nav-item"><a href="#" class="nav-link">Zaloguj się do systemu<i class="fas fa-arrow-right fa-ml"></i></a></li>
+                            {% endif %}
                             </ul>
                             <ul class="navbar-nav nav__profile d-flex flex-column">
-                                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                                    <li class="text-center"><img src="{{ asset('assets/img/user.svg') }}" alt="Ikona użytkownika" class="img-user"></li>
-                                    <li class="text-center mb-2">
-                                        {% if app.user.firstname|length > 0 or app.user.lastname|length > 0%}
-                                            {{ app.user.firstname }} {{ app.user.lastname }}
-                                        {% else %}
-                                            {{ app.user.username }}
-                                        {% endif %}
-                                    </li>
-                                    <li class="small text-center mb-2">
-                                        {% set role =app.user.roles[0] %}
-                                        {% if role == 'ROLE_PHOTOGRAPHER' %}
-                                            FOTOGRAF
-                                        {% elseif role == 'ROLE_RETOUCHER' %}
-                                            RETUSZER
-                                        {% elseif role == 'ROLE_WEBMASTER' %}
-                                            WEBMASTER
-                                        {% elseif role == 'ROLE_ADMIN' %}
-                                            LIDER
-                                        {% else %}
-                                            Brak roli
-                                        {% endif %}
-                                    </li>
+                            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                                <li class="text-center"><img src="{{ asset('assets/img/user.svg') }}" alt="Ikona użytkownika" class="img-user"></li>
+                                <li class="text-center mb-2">
+                                    {% if app.user.firstname|length > 0 or app.user.lastname|length > 0%}
+                                        {{ app.user.firstname }} {{ app.user.lastname }}
+                                    {% else %}
+                                        {{ app.user.username }}
+                                    {% endif %}
+                                </li>
+                                <li class="small text-center mb-2">
+                                    {% set role =app.user.roles[0] %}
+                                    {% if role == 'ROLE_PHOTOGRAPHER' %}
+                                        FOTOGRAF
+                                    {% elseif role == 'ROLE_RETOUCHER' %}
+                                        RETUSZER
+                                    {% elseif role == 'ROLE_WEBMASTER' %}
+                                        WEBMASTER
+                                    {% elseif role == 'ROLE_ADMIN' %}
+                                        LIDER
+                                    {% else %}
+                                        Brak roli
+                                    {% endif %}
+                                </li>
 
-                                    <li class="text-center mb-2"><a href="{{ path('user_edit', { 'id': app.user.id }) }}" class="btn btn-primary">Ustawienia<i class="fas fa-user-cog fa-ml"></i></a></li>
-                                    <li class="text-center mb-2"><a href="{{ path('fos_user_security_logout') }}" class="btn btn-danger"><i class="fas fa-sign-out-alt fa-mr"></i>Wyloguj</a></li>
-                                {% endif %}
+                                <li class="text-center mb-2"><a href="{{ path('user_edit', { 'id': app.user.id }) }}" class="btn btn-primary">Ustawienia<i class="fas fa-user-cog fa-ml"></i></a></li>
+                                <li class="text-center mb-2"><a href="{{ path('fos_user_security_logout') }}" class="btn btn-danger"><i class="fas fa-sign-out-alt fa-mr"></i>Wyloguj</a></li>
+                            {% endif %}
                             </ul>
                         </div>
                     </div>
