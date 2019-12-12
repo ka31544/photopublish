@@ -32,6 +32,9 @@
                 {% endfor %}
             </div>
             {% endif %}
+            {% if photosNotAcceptedForPhotographer|length == 0 and photosForPhotographer|length == 0 %}
+            <p>Brak zadań do wykonania!</p>
+            {% endif %}
         {% endif %}
         {% if is_granted('ROLE_LEADER') %}
             {% if photosForLeader|length > 0 %}
@@ -44,6 +47,9 @@
                 </div>
                 {% endfor %}
             </div>
+            {% endif %}
+            {% if photosForLeader|length == 0 %}
+                <p>Brak zadań do wykonania!</p>
             {% endif %}
         {% endif %}
         </div>

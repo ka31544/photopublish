@@ -8,6 +8,7 @@ imports:
 parameters:
     locale: pl
     photos_directory: '%kernel.project_dir%/web/uploads'
+    root_directory: '%kernel.project_dir%/web'
 
 framework:
     #esi: ~

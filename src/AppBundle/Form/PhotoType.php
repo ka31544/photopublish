@@ -26,7 +26,7 @@ class PhotoType extends AbstractType
                     ]
                 )
             ],
-//            'data_class' => null
+            'data_class' => null
         ]);
     }
 

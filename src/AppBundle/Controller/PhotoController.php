@@ -6,6 +6,7 @@ use AppBundle\Entity\Photo;
 use AppBundle\Entity\StatusHistory;
 use AppBundle\Form\PhotoType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,9 +43,7 @@ class PhotoController extends Controller
         $form->handleRequest($request);
 
         //Pobranie zalogowanego użytkownika
-        $userId = $this->get('security.token_storage')->getToken()->getUser()->getId();
-        $user = $this->getDoctrine()->getManager()
-            ->getRepository('AppBundle:User')->find($userId);
+        $user = $this->getLoggedUser();
 
         //Ustawienie statusu zdjęcia na upload (id=1) oraz przypisanie się fotografa do zdjęcia
         $status = $this->getDoctrine()->getManager()
@@ -114,10 +113,7 @@ class PhotoController extends Controller
      */
     public function editAction(Request $request, Photo $photo)
     {
-        $task = $this->getDoctrine()->getManager()
-            ->getRepository('AppBundle:Photo')->findBy([
-                'id' => $photo->getId(),
-            ]);
+
         $deleteForm = $this->createDeleteForm($photo);
         $editForm = $this->createForm(PhotoType::class, $photo);
         $editForm->handleRequest($request);
@@ -130,7 +126,6 @@ class PhotoController extends Controller
 
         return $this->render('photo/edit.html.twig', array(
             'photo' => $photo,
-            'task' => $task,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
@@ -145,7 +140,11 @@ class PhotoController extends Controller
         $form = $this->createDeleteForm($photo);
         $form->handleRequest($request);
 
+        $photoSrc = $this->getParameter('root_directory').$photo->getSrc();
+        $photoFile = new Filesystem();
+
         if ($form->isSubmitted() && $form->isValid()) {
+            $photoFile->remove($photoSrc);
             $em = $this->getDoctrine()->getManager();
             $em->remove($photo);
             $em->flush();
@@ -159,31 +158,7 @@ class PhotoController extends Controller
      */
     public function acceptPhotoAction(Request $request, Photo $photo)
     {
-        //Ustawienie statusu zdjęcia na upload (id=1)
-        $status = $this->getDoctrine()->getManager()
-            ->getRepository('AppBundle:Status')->find(2);
-        $photo->setActiveStatus($status);
-
-        //Wstawienie rekordu do historii statusu
-        $statusHistory = new StatusHistory();
-
-        $userId = $this->get('security.token_storage')->getToken()->getUser()->getId();
-        $user = $this->getDoctrine()->getManager()
-            ->getRepository('AppBundle:User')->find($userId);
-
-        $statusHistory->setPhoto($photo);
-        $statusHistory->setStatus($status);
-        $statusHistory->setUser($user);
-
-
-        $em = $this->getDoctrine()->getManager();
-        $entities = [$photo, $statusHistory];
-
-        foreach ($entities as $entity) {
-            $em->persist($entity);
-        }
-
-        $em->flush();
+        $this->acceptPhoto($photo, 2);
 
         return $this->redirectToRoute('photo_show', array('id' => $photo->getId()));
     }
@@ -191,33 +166,9 @@ class PhotoController extends Controller
     /**
      * Not accept photo for action leader
      */
-    public function notAcceptPhotoAction(Request $request, Photo $photo)
+    public function notAcceptPhotoAction(Photo $photo)
     {
-        //Ustawienie statusu zdjęcia na upload (id=1)
-        $status = $this->getDoctrine()->getManager()
-            ->getRepository('AppBundle:Status')->find(3);
-        $photo->setActiveStatus($status);
-
-        //Wstawienie rekordu do historii statusu
-        $statusHistory = new StatusHistory();
-
-        $userId = $this->get('security.token_storage')->getToken()->getUser()->getId();
-        $user = $this->getDoctrine()->getManager()
-            ->getRepository('AppBundle:User')->find($userId);
-
-        $statusHistory->setPhoto($photo);
-        $statusHistory->setStatus($status);
-        $statusHistory->setUser($user);
-
-
-        $em = $this->getDoctrine()->getManager();
-        $entities = [$photo, $statusHistory];
-
-        foreach ($entities as $entity) {
-            $em->persist($entity);
-        }
-
-        $em->flush();
+        $this->acceptPhoto($photo, 3);
 
         return $this->redirectToRoute('photo_show', array('id' => $photo->getId()));
     }
@@ -236,5 +187,36 @@ class PhotoController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+    private function getLoggedUser() {
+        //Pobranie zalogowanego użytkownika
+        $userId = $this->get('security.token_storage')->getToken()->getUser()->getId();
+        return $this->getDoctrine()->getManager()
+            ->getRepository('AppBundle:User')->find($userId);
+    }
+    private function acceptPhoto(Photo $photo, $statusId) {
+        //Ustawienie statusu zdjęcia na upload (id=1)
+        $status = $this->getDoctrine()->getManager()
+            ->getRepository('AppBundle:Status')->find($statusId);
+        $photo->setActiveStatus($status);
+
+        //Wstawienie rekordu do historii statusu
+        $statusHistory = new StatusHistory();
+
+        $user = $this->getLoggedUser();
+
+        $statusHistory->setPhoto($photo);
+        $statusHistory->setStatus($status);
+        $statusHistory->setUser($user);
+
+
+        $em = $this->getDoctrine()->getManager();
+        $entities = [$photo, $statusHistory];
+
+        foreach ($entities as $entity) {
+            $em->persist($entity);
+        }
+
+        $em->flush();
     }
 }

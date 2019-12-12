@@ -9,26 +9,22 @@ class DashboardController extends Controller
 {
     public function indexAction(Request $request)
     {
-        $userId = $this->get('security.token_storage')->getToken()->getUser()->getId();
-        $user = $this->getDoctrine()->getManager()
-            ->getRepository('AppBundle:User')->find($userId);
+        $user = $this->getLoggedUser();
 
-        $photosForPhotographer = $this->getDoctrine()->getManager()
-            ->getRepository('AppBundle:Photo')->findBy([
-                'activeStatus' => 1,
-                'assignedPhotographer' => $user
-            ], [
-                'uploadAt' => 'DESC'
-            ]);
-        $photosNotAcceptedForPhotographer = $this->getDoctrine()->getManager()
-            ->getRepository('AppBundle:Photo')->findBy([
+        $photosForPhotographer = $this->photosForUser([
+            'activeStatus' => 1,
+            'assignedPhotographer' => $user
+        ], [
+            'uploadAt' => 'DESC'
+        ]);
+
+        $photosNotAcceptedForPhotographer = $this->photosForUser([
                 'activeStatus' => 3,
                 'assignedPhotographer' => $user
             ], [
                 'uploadAt' => 'DESC'
             ]);
-        $photosForLeader = $this->getDoctrine()->getManager()
-            ->getRepository('AppBundle:Photo')->findBy([
+        $photosForLeader = $this->photosForUser([
                 'activeStatus' => 1,
             ], [
                 'uploadAt' => 'DESC'
@@ -48,5 +44,18 @@ class DashboardController extends Controller
             'photosNotAcceptedForPhotographer' => $photosNotAcceptedForPhotographer,
             'photosForLeader' => $photosForLeader,
         ));
+    }
+    private function getLoggedUser() {
+        $userId = $this->get('security.token_storage')->getToken()->getUser()->getId();
+        $user = $this->getDoctrine()->getManager()
+            ->getRepository('AppBundle:User')->find($userId);
+
+        return $user;
+    }
+    private function photosForUser(array $conditions, array $sort, int $limit = null) {
+        $photos = $this->getDoctrine()->getManager()
+            ->getRepository('AppBundle:Photo')->findBy($conditions, $sort, $limit);
+
+        return $photos;
     }
 }
