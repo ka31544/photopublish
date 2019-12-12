@@ -1,5 +1,5 @@
 {% trans_default_domain 'FOSUserBundle' %}
-<h2 class="text-center mb-3">Logowanie</h2>
+<h2 class="text-center text-white mb-3">Logowanie<i class="fas fa-sign-in-alt fa-ml"></i></h2>
 {% if error %}
 <div class="alert alert-danger" role="alert">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 {% endif %}
@@ -11,18 +11,20 @@
     <div class="form-group row">
         <label for="username" class="col-2 col-form-label"><i class="far fa-user fa-login"></i></label>
         <div class="col-10">
-            <input class="form-control" type="text" id="username" name="_username" value="{{ last_username }}" placeholder="Login" required="required" autocomplete="username">
+            <input class="form-control form__control" type="text" id="username" name="_username" value="{{ last_username }}" placeholder="Login" required="required" autocomplete="username">
         </div>
     </div>
     <div class="form-group row">
         <label for="password" class="col-2 col-form-label"><i class="fas fa-key fa-login"></i></label>
         <div class="col-10">
-            <input class="form-control" type="password" id="password" name="_password" placeholder="Hasło" required="required" autocomplete="current-password" />
+            <input class="form-control form__control" type="password" id="password" name="_password" placeholder="Hasło" required="required" autocomplete="current-password" />
         </div>
     </div>
     <div class="custom-control custom-checkbox mb-3">
         <input type="checkbox" class="custom-control-input" id="remember_me" name="_remember_me" value="on">
         <label class="custom-control-label" for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
     </div>
-    <input class="btn btn-primary btn__primary" type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}">
+    <div class="btn__container">
+        <input class="btn btn-primary btn__primary" type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}">
+    </div>
 </form>

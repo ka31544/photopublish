@@ -55,11 +55,41 @@ main {
     .form__login {
       padding: 4rem 1rem; } }
 
+.form__control {
+  -webkit-transition: transform .3s .2s, width .3s;
+  -moz-transition: transform .3s .2s, width .3s;
+  -ms-transition: transform .3s .2s, width .3s;
+  -o-transition: transform .3s .2s, width .3s;
+  transition: transform .3s, width .3s; }
+  .form__control:focus {
+    width: calc(100% + 1rem);
+    -webkit-transform: translateX(-1rem);
+    -moz-transform: translateX(-1rem);
+    -ms-transform: translateX(-1rem);
+    -o-transform: translateX(-1rem);
+    transform: translateX(-1rem); }
+
+.btn__container {
+  border: 2px solid #007dff;
+  border-image: linear-gradient(90deg, #007dff, #00ffab);
+  border-image-slice: 1;
+  width: 100%;
+  height: 2.25rem;
+  position: relative; }
+
 .btn__primary {
   color: white;
   background: linear-gradient(90deg, #007dff, #00ffab) #007dff;
   border: none;
-  width: 100%;
+  width: calc(100% + 4px);
+  height: calc(2.25rem);
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  z-index: 1;
   -webkit-transition: transform .4s;
   -moz-transition: transform .4s;
   -ms-transition: transform .4s;
@@ -67,11 +97,17 @@ main {
   transition: transform .4s; }
   .btn__primary:hover {
     color: white;
-    -webkit-transform: scale(1.1);
-    -moz-transform: scale(1.1);
-    -ms-transform: scale(1.1);
-    -o-transform: scale(1.1);
-    transform: scale(1.1); }
+    -webkit-transform: translateX(4px) translateY(4px);
+    -moz-transform: translateX(4px) translateY(4px);
+    -ms-transform: translateX(4px) translateY(4px);
+    -o-transform: translateX(4px) translateY(4px);
+    transform: translateX(4px) translateY(4px); }
+  .btn__primary:focus {
+    -webkit-transform: translateX(4px) translateY(4px);
+    -moz-transform: translateX(4px) translateY(4px);
+    -ms-transform: translateX(4px) translateY(4px);
+    -o-transform: translateX(4px) translateY(4px);
+    transform: translateX(4px) translateY(4px); }
 
 /* Navigation */
 .navbar {

@@ -9,7 +9,9 @@
         <div class="col-lg-6 d-flex flex-column">
             <h3 class="mb-3"><i class="fas fa-tasks fa-mr"></i>Twoje zadania</h3>
         {% if is_granted('ROLE_PHOTOGRAPHER') %}
-            <a href="{{ path('photo_new') }}" class="btn btn__primary mb-5">Dodaj zdjęcie<i class="fas fa-upload fa-ml"></i></a>
+            <div class="btn__container mb-5">
+                <a href="{{ path('photo_new') }}" class="btn btn__primary">Dodaj zdjęcie<i class="fas fa-upload fa-ml"></i></a>
+            </div>
             {% if photosNotAcceptedForPhotographer|length > 0 %}
             <h4>Niezaakceptowane</h4>
             <div class="d-flex flex-row flex-wrap justify-content-center">
@@ -67,7 +69,9 @@
                 </div>
             </div>
             {% endfor %}
-            <a href="{{ path('_statusHistory') }}" class="btn btn__primary my-3"><i class="fas fa-history fa-mr"></i>Zobacz całą historię</a>
+            <div class="btn__container my-3">
+                <a href="{{ path('_statusHistory') }}" class="btn btn__primary"><i class="fas fa-history fa-mr"></i>Zobacz całą historię</a>
+            </div>
         </div>
     </div>
 {% endblock %}
