@@ -10,8 +10,19 @@
             <a href="{{ photo.src }}" target="_blank"><img src="{{ photo.src }}" alt="Zdjęcie zadania" class="img-fluid mb-3"></a>
         {% if is_granted('ROLE_LEADER') %}
             {% if photo.activeStatus.id == 1 %}
-                <a href="{{ path('photo_accept', { 'id': photo.id }) }}" class="btn btn-success mb-3">Zaakceptuj zdjęcie<i class="fas fa-image fa-ml"></i></a>
-                <a href="{{ path('photo_not_accept', { 'id': photo.id }) }}" class="btn btn-danger mb-3">Nieakceptuj zdjęcia<i class="fas fa-image fa-ml"></i></a>
+                <a href="{{ path('photo_accept', { 'id': photo.id }) }}" class="btn btn-success mb-3">Zaakceptuj zdjęcie<i class="far fa-check-circle fa-ml"></i></a>
+                <a href="{{ path('photo_not_accept', { 'id': photo.id }) }}" class="btn btn-danger mb-3">Nieakceptuj zdjęcia<i class="far fa-times-circle fa-ml"></i></a>
+            {% elseif photo.activeStatus.id == 4 %}
+                <a href="{{ path('retouch_accept', { 'id': photo.id }) }}" class="btn btn-success mb-3">Zaakceptuj retusz<i class="far fa-check-circle fa-ml"></i></a>
+                <a href="{{ path('retouch_not_accept', { 'id': photo.id }) }}" class="btn btn-danger mb-3">Nieakceptuj retuszu<i class="far fa-times-circle fa-ml"></i></a>
+            {% endif %}
+        {% elseif is_granted('ROLE_RETOUCHER') %}
+            {% if photo.activeStatus.id == 2 or photo.activeStatus.id == 6 %}
+                <a href="{{ path('retouch_to_accept', { 'id': photo.id }) }}" class="btn btn-success mb-3">Retusz do akceptacji<i class="far fa-check-circle fa-ml"></i></a>
+            {% endif %}
+        {% elseif is_granted('ROLE_PHOTOGRAPHER') %}
+            {% if photo.activeStatus.id == 3 %}
+                <a href="{{ path('photo_to_accept', { 'id': photo.id }) }}" class="btn btn-success mb-3">Zdjęcie do akceptacji<i class="far fa-check-circle fa-ml"></i></a>
             {% endif %}
         {% endif %}
             <table class="mb-3">
@@ -35,18 +46,29 @@
         </div>
         <div class="col-lg-6">
             <div class="d-flex flex-column flex-column justify-content-center">
-                <h3><i class="fas fa-history fa-mr"></i>Historia statusów</h3>
+                <h3><i class="fas fa-history fa-mr"></i>Historia pracy</h3>
             </div>
-            {% for element in photo.photoStatusHistory %}
-                <div class="history__element">
-                    <img src="{{ element.photo.src }}" alt="" class="history__img">
-                    <p class="history__description"><strong>{{ element.user.lastname|upper }}</strong> zmienił status na <strong>{{ element.status.name }}</strong></p>
-                    <div class="history__details">
-                        <div><i class="far fa-calendar-alt fa-mr"></i>{{ element.date|date('d/m/Y') }}</div>
-                        <div><i class="far fa-clock fa-mr"></i>{{ element.date|date('H:i:s') }}</div>
-                    </div>
+        {% for element in photo.photoStatusHistory %}
+            {% if element.status.id == 9 %}
+            <div class="history__element">
+                <img src="{{ element.photo.src }}" alt="" class="history__img">
+                <p class="history__description"><strong>{{ element.user.lastname|upper }}</strong> zaktualizował zdjęcie</p>
+                <div class="history__details">
+                    <div><i class="far fa-calendar-alt fa-mr"></i>{{ element.date|date('d/m/Y') }}</div>
+                    <div><i class="far fa-clock fa-mr"></i>{{ element.date|date('H:i:s') }}</div>
                 </div>
-            {% endfor %}
+            </div>
+            {% else %}
+            <div class="history__element">
+                <img src="{{ element.photo.src }}" alt="" class="history__img">
+                <p class="history__description"><strong>{{ element.user.lastname|upper }}</strong> zmienił status na <strong>{{ element.status.name }}</strong></p>
+                <div class="history__details">
+                    <div><i class="far fa-calendar-alt fa-mr"></i>{{ element.date|date('d/m/Y') }}</div>
+                    <div><i class="far fa-clock fa-mr"></i>{{ element.date|date('H:i:s') }}</div>
+                </div>
+            </div>
+        {% endif %}
+        {% endfor %}
         </div>
     </div>
 

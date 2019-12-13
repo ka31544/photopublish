@@ -56,9 +56,18 @@ class Photo
     /**
      * @var User
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="id")
+     * @ORM\JoinColumn(name="assigned_photographer", referencedColumnName="id")
      */
     private $assignedPhotographer;
+
+    /**
+     * @var User
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="id")
+     * @ORM\JoinColumn(name="assigned_retoucher", referencedColumnName="id", nullable=true)
+     */
+    private $assignedRetoucher;
 
     /**
      * @ORM\OneToOne(
@@ -83,7 +92,6 @@ class Photo
      */
     public function __construct()
     {
-//        $this->photosOfPhotoShoot = new ArrayCollection();
         $this->photoStatusHistory = new ArrayCollection();
         $this->uploadAt = new \DateTime();
     }
@@ -200,6 +208,22 @@ class Photo
     public function getAssignedPhotographer()
     {
         return $this->assignedPhotographer;
+    }
+
+    /**
+     * @param User $assignedRetoucher
+     */
+    public function setAssignedRetoucher($assignedRetoucher)
+    {
+        $this->assignedRetoucher = $assignedRetoucher;
+    }
+
+    /**
+     * @return User
+     */
+    public function getAssignedRetoucher()
+    {
+        return $this->assignedRetoucher;
     }
 
     /**

@@ -113,15 +113,59 @@ class PhotoController extends Controller
      */
     public function editAction(Request $request, Photo $photo)
     {
+        $photoSrc = $this->getParameter('root_directory').$photo->getSrc();
+        $photoFile = new Filesystem();
 
         $deleteForm = $this->createDeleteForm($photo);
         $editForm = $this->createForm(PhotoType::class, $photo);
         $editForm->handleRequest($request);
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+        //Pobranie zalogowanego użytkownika
+        $user = $this->getLoggedUser();
 
-            return $this->redirectToRoute('photo_edit', array('id' => $photo->getId()));
+        //Pobranie ID statusu aktualizacji zdjęcia
+        $status = $this->getDoctrine()->getManager()
+            ->getRepository('AppBundle:Status')->find(9);
+
+        //Wstawienie rekordu o aktualizacji zdjęcia do historii statusów
+        $statusHistory = new StatusHistory();
+        $statusHistory->setPhoto($photo);
+        $statusHistory->setStatus($status);
+        $statusHistory->setUser($user);
+
+        $modifiedDate = new \DateTime();
+        $photo->setModifiedAt($modifiedDate);
+
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+
+            /** @var UploadedFile $newPhotoFile */
+            $newPhotoFile = $editForm['src']->getData();
+
+            if ($newPhotoFile) {
+                $originalFileName = pathinfo($newPhotoFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $newFileName = $originalFileName.'-'.uniqid().'.'.$newPhotoFile->guessExtension();
+                try {
+                    $newPhotoFile->move(
+                        $this->getParameter('photos_directory'),
+                        $newFileName
+                    );
+                } catch (FileException $e) {
+                }
+                $newSrc = '/uploads/' . $newFileName;
+                $photo->setSrc($newSrc);
+            }
+            $photoFile->remove($photoSrc);
+
+            $em = $this->getDoctrine()->getManager();
+            $entities = [$photo, $statusHistory];
+
+            foreach ($entities as $entity) {
+                $em->persist($entity);
+            }
+
+            $em->flush();
+
+            return $this->redirectToRoute('photo_show', array('id' => $photo->getId()));
         }
 
         return $this->render('photo/edit.html.twig', array(
@@ -154,7 +198,17 @@ class PhotoController extends Controller
     }
 
     /**
-     * Accept photo for action leader
+     * Accept photo action for leader
+     */
+    public function photoToAcceptAction(Request $request, Photo $photo)
+    {
+        $this->acceptPhoto($photo, 1);
+
+        return $this->redirectToRoute('photo_show', array('id' => $photo->getId()));
+    }
+
+    /**
+     * Accept photo action for leader
      */
     public function acceptPhotoAction(Request $request, Photo $photo)
     {
@@ -164,11 +218,38 @@ class PhotoController extends Controller
     }
 
     /**
-     * Not accept photo for action leader
+     * Not accept photo action for leader
      */
     public function notAcceptPhotoAction(Photo $photo)
     {
         $this->acceptPhoto($photo, 3);
+
+        return $this->redirectToRoute('photo_show', array('id' => $photo->getId()));
+    }
+
+    public function retouchToAcceptAction(Photo $photo)
+    {
+        $this->acceptPhoto($photo, 4);
+
+        return $this->redirectToRoute('photo_show', array('id' => $photo->getId()));
+    }
+
+    /**
+     * Accept retouch action for leader
+     */
+    public function acceptRetouchAction(Photo $photo)
+    {
+        $this->acceptPhoto($photo, 5);
+
+        return $this->redirectToRoute('photo_show', array('id' => $photo->getId()));
+    }
+
+    /**
+     * Not accept retouch action for leader
+     */
+    public function notAcceptRetouchAction(Photo $photo)
+    {
+        $this->acceptPhoto($photo, 6);
 
         return $this->redirectToRoute('photo_show', array('id' => $photo->getId()));
     }

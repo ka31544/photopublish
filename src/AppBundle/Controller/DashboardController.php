@@ -14,21 +14,27 @@ class DashboardController extends Controller
         $photosForPhotographer = $this->photosForUser([
             'activeStatus' => 1,
             'assignedPhotographer' => $user
-        ], [
-            'uploadAt' => 'DESC'
         ]);
 
         $photosNotAcceptedForPhotographer = $this->photosForUser([
                 'activeStatus' => 3,
                 'assignedPhotographer' => $user
-            ], [
-                'uploadAt' => 'DESC'
             ]);
+        $photosForRetoucher = $this->photosForUser([
+            'activeStatus' => 2,
+//            'assignedRetoucher' => $user
+        ]);
+        $photosNotAcceptedForRetoucher = $this->photosForUser([
+            'activeStatus' => 6,
+//            'assignedRetoucher' => $user
+        ]);
         $photosForLeader = $this->photosForUser([
-                'activeStatus' => 1,
-            ], [
-                'uploadAt' => 'DESC'
-            ]);
+            'activeStatus' => 1,
+        ]);
+        $retouchedPhotosForLeader = $this->photosForUser([
+            'activeStatus' => 4,
+        ]);
+
         $statusHistory = $this->getDoctrine()->getManager()
             ->getRepository('AppBundle:StatusHistory')->findBy([
 
@@ -42,7 +48,10 @@ class DashboardController extends Controller
             'statusHistory' => $statusHistory,
             'photosForPhotographer' => $photosForPhotographer,
             'photosNotAcceptedForPhotographer' => $photosNotAcceptedForPhotographer,
+            'photosForRetoucher' => $photosForRetoucher,
+            'photosNotAcceptedForRetoucher' => $photosNotAcceptedForRetoucher,
             'photosForLeader' => $photosForLeader,
+            'retouchedPhotosForLeader' => $retouchedPhotosForLeader,
         ));
     }
     private function getLoggedUser() {
@@ -52,9 +61,9 @@ class DashboardController extends Controller
 
         return $user;
     }
-    private function photosForUser(array $conditions, array $sort, int $limit = null) {
+    private function photosForUser(array $conditions, array $sort = ['uploadAt' => 'DESC']) {
         $photos = $this->getDoctrine()->getManager()
-            ->getRepository('AppBundle:Photo')->findBy($conditions, $sort, $limit);
+            ->getRepository('AppBundle:Photo')->findBy($conditions, $sort);
 
         return $photos;
     }

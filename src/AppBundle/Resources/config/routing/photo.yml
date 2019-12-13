@@ -23,6 +23,11 @@ photo_delete:
     defaults: { _controller: "AppBundle:Photo:delete" }
     methods:  DELETE
 
+photo_to_accept:
+    path:     /{id}/to-accept
+    defaults: { _controller: "AppBundle:Photo:photoToAccept" }
+    methods:  [GET, POST]
+
 photo_accept:
     path:     /{id}/accept
     defaults: { _controller: "AppBundle:Photo:acceptPhoto" }
@@ -31,4 +36,18 @@ photo_accept:
 photo_not_accept:
     path:     /{id}/not-accept
     defaults: { _controller: "AppBundle:Photo:notAcceptPhoto" }
+    methods:  [GET, POST]
+
+retouch_to_accept:
+    path:     /{id}/retouch
+    defaults: { _controller: "AppBundle:Photo:retouchToAccept" }
+    methods:  [GET, POST]
+retouch_accept:
+    path:     /{id}/retouch/accept
+    defaults: { _controller: "AppBundle:Photo:acceptRetouch" }
+    methods:  [GET, POST]
+
+retouch_not_accept:
+    path:     /{id}/retouch/not-accept
+    defaults: { _controller: "AppBundle:Photo:notAcceptRetouch" }
     methods:  [GET, POST]

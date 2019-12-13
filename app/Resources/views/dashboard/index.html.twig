@@ -37,8 +37,33 @@
             {% if photosNotAcceptedForPhotographer|length == 0 and photosForPhotographer|length == 0 %}
             <p>Brak zadań do wykonania!</p>
             {% endif %}
-        {% endif %}
-        {% if is_granted('ROLE_LEADER') %}
+        {% elseif is_granted('ROLE_RETOUCHER') %}
+            {% if photosNotAcceptedForRetoucher|length > 0 %}
+                <h4>Niezaakceptowany retusz</h4>
+                <div class="d-flex flex-row flex-wrap justify-content-center">
+                    {% for photo in photosNotAcceptedForRetoucher %}
+                        <div class="task__element">
+                            <img src="{{ photo.src }}" alt="Zdjęcie zadania" class="task__img">
+                            <a href="{{ path('photo_show', { 'id': photo.id }) }}" class="btn btn-primary task__button">Kliknij</a>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% if photosForRetoucher|length > 0 %}
+                <h4>Zdjęcia do retuszu</h4>
+                <div class="d-flex flex-row flex-wrap justify-content-center">
+                    {% for photo in photosForRetoucher %}
+                        <div class="task__element">
+                            <img src="{{ photo.src }}" alt="Zdjęcie zadania" class="task__img">
+                            <a href="{{ path('photo_show', { 'id': photo.id }) }}" class="btn btn-primary task__button">Kliknij</a>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% if photosForRetoucher|length == 0 and photosNotAcceptedForRetoucher|length == 0 %}
+                <p>Brak zadań do wykonania!</p>
+            {% endif %}
+        {% elseif is_granted('ROLE_LEADER') %}
             {% if photosForLeader|length > 0 %}
             <h4>Zdjęcia do akceptacji</h4>
             <div class="d-flex flex-row flex-wrap justify-content-center">
@@ -50,16 +75,37 @@
                 {% endfor %}
             </div>
             {% endif %}
-            {% if photosForLeader|length == 0 %}
+            {% if retouchedPhotosForLeader|length > 0 %}
+                <h4>Retusz do akceptacji</h4>
+                <div class="d-flex flex-row flex-wrap justify-content-center">
+                    {% for photo in retouchedPhotosForLeader %}
+                        <div class="task__element">
+                            <img src="{{ photo.src }}" alt="Zdjęcie zadania" class="task__img">
+                            <a href="{{ path('photo_show', { 'id': photo.id }) }}" class="btn btn-primary task__button">Kliknij</a>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% if photosForLeader|length == 0 and retouchedPhotosForLeader == 0 %}
                 <p>Brak zadań do wykonania!</p>
             {% endif %}
         {% endif %}
         </div>
         <div class="col-lg-6">
             <div class="d-flex flex-column flex-column justify-content-center">
-                <h3><i class="fas fa-history fa-mr"></i>Historia statusów</h3>
+                <h3><i class="fas fa-history fa-mr"></i>Historia pracy</h3>
             </div>
-            {% for element in statusHistory %}
+        {% for element in statusHistory %}
+            {% if element.status.id == 9 %}
+            <div class="history__element">
+                <img src="{{ element.photo.src }}" alt="" class="history__img">
+                <p class="history__description"><strong>{{ element.user.lastname|upper }}</strong> {% if element.status.id == 9 %} zaktualizował zdjęcie{% endif %}</p>
+                <div class="history__details">
+                    <div><i class="far fa-calendar-alt fa-mr"></i>{{ element.date|date('d/m/Y') }}</div>
+                    <div><i class="far fa-clock fa-mr"></i>{{ element.date|date('H:i:s') }}</div>
+                </div>
+            </div>
+            {% else %}
             <div class="history__element">
                 <img src="{{ element.photo.src }}" alt="" class="history__img">
                 <p class="history__description"><strong>{{ element.user.lastname|upper }}</strong> zmienił status na <strong>{{ element.status.name }}</strong></p>
@@ -68,7 +114,8 @@
                     <div><i class="far fa-clock fa-mr"></i>{{ element.date|date('H:i:s') }}</div>
                 </div>
             </div>
-            {% endfor %}
+            {% endif %}
+        {% endfor %}
             <div class="btn__container my-3">
                 <a href="{{ path('_statusHistory') }}" class="btn btn__primary"><i class="fas fa-history fa-mr"></i>Zobacz całą historię</a>
             </div>
