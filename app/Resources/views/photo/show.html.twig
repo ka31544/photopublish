@@ -42,6 +42,11 @@
                 <a href="{{ path('photo_edit', { 'id': photo.id }) }}" class="btn btn-info mb-3">Edytuj<i class="fas fa-edit fa-ml"></i></a>
             </div>
         {% endif %}
+        {% if is_granted('ROLE_WEBMASTER') or is_granted('ROLE_RETOUCHER') %}
+            <div>
+                <a href="{{ photo.src }}" class="btn btn-info mb-3" download="">Pobierz<i class="fas fa-download fa-ml"></i></a>
+            </div>
+        {% endif %}
         {% if is_granted('ROLE_LEADER') or is_granted('ROLE_PHOTOGRAPHER') %}
             {{ form_start(delete_form) }}
             <input type="submit" value="Usuń" class="btn btn-danger mb-3">
