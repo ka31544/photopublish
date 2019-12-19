@@ -70,6 +70,14 @@ class Photo
     private $assignedRetoucher;
 
     /**
+     * @var User
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="id")
+     * @ORM\JoinColumn(name="assigned_webmaster", referencedColumnName="id", nullable=true)
+     */
+    private $assignedWebmaster;
+
+    /**
      * @ORM\OneToOne(
      *     targetEntity="PhotosOfPhotoShoot",
      *     mappedBy="photo",
@@ -224,6 +232,22 @@ class Photo
     public function getAssignedRetoucher()
     {
         return $this->assignedRetoucher;
+    }
+
+    /**
+     * @param User $assignedWebmaster
+     */
+    public function setAssignedWebmaster($assignedWebmaster)
+    {
+        $this->assignedWebmaster = $assignedWebmaster;
+    }
+
+    /**
+     * @return User
+     */
+    public function getAssignedWebmaster()
+    {
+        return $this->assignedWebmaster;
     }
 
     /**

@@ -11,29 +11,49 @@ class DashboardController extends Controller
     {
         $user = $this->getLoggedUser();
 
-        $photosForPhotographer = $this->photosForUser([
-            'activeStatus' => 1,
-            'assignedPhotographer' => $user
-        ]);
+        $photosForUser = [];
+        $photos2ForUser  = [];
+        $photos3ForUser = [];
 
-        $photosNotAcceptedForPhotographer = $this->photosForUser([
+        if (in_array('ROLE_PHOTOGRAPHER', $user->getRoles()))
+        {
+            $photosForUser = $this->photosForUser([
+                'activeStatus' => 1,
+                'assignedPhotographer' => $user
+            ]);
+
+            $photos2ForUser = $this->photosForUser([
                 'activeStatus' => 3,
                 'assignedPhotographer' => $user
             ]);
-        $photosForRetoucher = $this->photosForUser([
-            'activeStatus' => 2,
+        }
+        elseif (in_array('ROLE_RETOUCHER', $user->getRoles()))
+        {
+            $photosForUser = $this->photosForUser([
+                'activeStatus' => 2,
 //            'assignedRetoucher' => $user
-        ]);
-        $photosNotAcceptedForRetoucher = $this->photosForUser([
-            'activeStatus' => 6,
+            ]);
+            $photos2ForUser = $this->photosForUser([
+                'activeStatus' => 6,
 //            'assignedRetoucher' => $user
-        ]);
-        $photosForLeader = $this->photosForUser([
-            'activeStatus' => 1,
-        ]);
-        $retouchedPhotosForLeader = $this->photosForUser([
-            'activeStatus' => 4,
-        ]);
+            ]);
+        }
+        elseif (in_array('ROLE_ADMIN', $user->getRoles()))
+        {
+            $photosForUser = $this->photosForUser([
+                'activeStatus' => 1,
+            ]);
+            $photos2ForUser = $this->photosForUser([
+                'activeStatus' => 4,
+            ]);
+        }
+        elseif (in_array('ROLE_WEBMASTER', $user->getRoles()))
+        {
+            $photosForUser = $this->photosForUser([
+                'activeStatus' => 5,
+//                'assignedWebmaster' => $user
+            ]);
+        }
 
         $statusHistory = $this->getDoctrine()->getManager()
             ->getRepository('AppBundle:StatusHistory')->findBy([
@@ -45,13 +65,10 @@ class DashboardController extends Controller
             );
 
         return $this->render('dashboard/index.html.twig', array(
+            'photosForUser' => $photosForUser,
+            'photos2ForUser' => $photos2ForUser,
+            'photos3ForUser' => $photos3ForUser,
             'statusHistory' => $statusHistory,
-            'photosForPhotographer' => $photosForPhotographer,
-            'photosNotAcceptedForPhotographer' => $photosNotAcceptedForPhotographer,
-            'photosForRetoucher' => $photosForRetoucher,
-            'photosNotAcceptedForRetoucher' => $photosNotAcceptedForRetoucher,
-            'photosForLeader' => $photosForLeader,
-            'retouchedPhotosForLeader' => $retouchedPhotosForLeader,
         ));
     }
     private function getLoggedUser() {
