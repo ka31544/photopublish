@@ -51,3 +51,8 @@ retouch_not_accept:
     path:     /{id}/retouch/not-accept
     defaults: { _controller: "AppBundle:Photo:notAcceptRetouch" }
     methods:  [GET, POST]
+
+published_photo:
+    path:     /{id}/published
+    defaults: { _controller: "AppBundle:Photo:publishedPhoto" }
+    methods:  [GET, POST]

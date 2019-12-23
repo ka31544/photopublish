@@ -255,6 +255,16 @@ class PhotoController extends Controller
     }
 
     /**
+     * Published photo action for webmaster
+     */
+    public function publishedPhotoAction(Photo $photo)
+    {
+        $this->acceptPhoto($photo, 7);
+
+        return $this->redirectToRoute('photo_show', array('id' => $photo->getId()));
+    }
+
+    /**
      * Creates a form to delete a photo entity.
      *
      * @param Photo $photo The photo entity

@@ -24,6 +24,10 @@
             {% if photo.activeStatus.id == 3 %}
                 <a href="{{ path('photo_to_accept', { 'id': photo.id }) }}" class="btn btn-success mb-3">Zdjęcie do akceptacji<i class="far fa-check-circle fa-ml"></i></a>
             {% endif %}
+        {% elseif is_granted('ROLE_WEBMASTER') %}
+            {% if photo.activeStatus.id == 5 %}
+                <a href="{{ path('published_photo', { 'id': photo.id }) }}" class="btn btn-success mb-3">Opublikowano<i class="far fa-check-circle fa-ml"></i></a>
+            {% endif %}
         {% endif %}
             <table class="mb-3">
                 <tbody>
