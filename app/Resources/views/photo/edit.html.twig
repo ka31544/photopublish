@@ -1,22 +1,23 @@
 {% extends 'base.html.twig' %}
 
+{% block h2 %}
+    <h2 class="title">Edycja zdjęcia nr {{ photo.id }}</h2>
+{% endblock %}
+
 {% block body %}
-    <h1>Edycja zdjęcia</h1>
-    {{ form_start(edit_form) }}
+    <div class="row">
+        <div class="col-lg-6">
+            {{ form_start(edit_form) }}
+            <div class="custom-file mb-3">
+                {{ form_widget(edit_form) }}
+            </div>
+            <input type="submit" value="Edytuj" class="btn btn-success mb-3">
+            {{ form_end(edit_form) }}
 
-    {{ form_widget(edit_form.src) }}
-    <input type="submit" value="Edit" />
+            <div>
+                <a href="{{ path('_dashboard') }}" class="btn btn-danger mb-3"><i class="fas fa-chevron-left fa-mr"></i>Cofnij</a>
+            </div>
+        </div>
+    </div>
 
-    {{ form_end(edit_form) }}
-
-    <ul>
-        <li>
-            <a href="{{ path('photo_index') }}">Back to the list</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
 {% endblock %}

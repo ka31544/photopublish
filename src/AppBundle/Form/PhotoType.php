@@ -26,6 +26,12 @@ class PhotoType extends AbstractType
                     ]
                 )
             ],
+            'attr' => [
+                'class' => 'custom-file-input'
+            ],
+            'label_attr' => [
+                'class' => 'custom-file-label'
+            ],
             'data_class' => null
         ]);
     }

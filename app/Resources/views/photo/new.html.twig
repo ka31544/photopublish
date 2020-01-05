@@ -1,13 +1,22 @@
 {% extends 'base.html.twig' %}
 
+{% block h2 %}
+    <h2 class="title">Dodaj zdjęcie</h2>
+{% endblock %}
+
 {% block body %}
-<h1 class="title">Dodaj zdjęcie</h1>
 
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <input type="submit" value="Dodaj" class="btn btn-success">
-{{ form_end(form) }}
+<div class="row">
+    <div class="col-lg-6">
+    {{ form_start(form) }}
+        <div class="custom-file mb-3">
+            {{ form_widget(form) }}
+        </div>
+        <input type="submit" value="Dodaj" class="btn btn-success">
+    {{ form_end(form) }}
 
-{#{{ app.request.headers.get('referer') }}#}
-<a href="{{ path('_dashboard') }}" class="btn btn-danger mt-3"><i class="fas fa-chevron-left fa-mr"></i>Cofnij</a>
+    {#{{ app.request.headers.get('referer') }}#}
+        <a href="{{ path('_dashboard') }}" class="btn btn-danger mt-3"><i class="fas fa-chevron-left fa-mr"></i>Cofnij</a>
+    </div>
+</div>
 {% endblock %}

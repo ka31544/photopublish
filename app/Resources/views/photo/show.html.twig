@@ -41,7 +41,7 @@
                 </tr>
                 </tbody>
             </table>
-        {% if is_granted('ROLE_PHOTOGRAPHER') or is_granted('ROLE_RETOUCHER') %}
+        {% if is_granted('ROLE_PHOTOGRAPHER') or is_granted('ROLE_RETOUCHER') or is_granted('ROLE_LEADER') %}
             <div>
                 <a href="{{ path('photo_edit', { 'id': photo.id }) }}" class="btn btn-info mb-3">Edytuj<i class="fas fa-edit fa-ml"></i></a>
             </div>
