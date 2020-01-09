@@ -9,6 +9,9 @@
         <div class="col-lg-6">
             <a href="{{ photo.src }}" target="_blank"><img src="{{ photo.src }}" alt="Zdjęcie zadania" class="img-fluid mb-3"></a>
         {% if is_granted('ROLE_LEADER') %}
+            <div>
+                <a href="{{ path('photo_assign', { 'id': photo.id }) }}" class="btn btn-info mb-3">Przypisz<i class="fas fa-user-plus fa-ml"></i></a>
+            </div>
             {% if photo.activeStatus.id == 1 %}
                 <a href="{{ path('photo_accept', { 'id': photo.id }) }}" class="btn btn-success mb-3">Zaakceptuj zdjęcie<i class="far fa-check-circle fa-ml"></i></a>
                 <a href="{{ path('photo_not_accept', { 'id': photo.id }) }}" class="btn btn-danger mb-3">Nieakceptuj zdjęcia<i class="far fa-times-circle fa-ml"></i></a>

@@ -23,6 +23,11 @@ photo_delete:
     defaults: { _controller: "AppBundle:Photo:delete" }
     methods:  DELETE
 
+photo_assign:
+    path:     /{id}/assign
+    defaults: { _controller: "AppBundle:Photo:assign" }
+    methods:  [GET, POST]
+
 photo_to_accept:
     path:     /{id}/to-accept
     defaults: { _controller: "AppBundle:Photo:photoToAccept" }

@@ -2,6 +2,9 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Entity\User;
+use AppBundle\Repository\UserRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -32,8 +35,31 @@ class PhotoType extends AbstractType
             'label_attr' => [
                 'class' => 'custom-file-label'
             ],
-            'data_class' => null
-        ]);
+//            'data_class' => null
+        ])
+//        ->add('assignedRetoucher', EntityType::class, [
+//            'label' => 'Przypisz retuszera',
+//            'class' => User::class,
+//            'query_builder' => function (UserRepository $er)
+//            {
+//                return $er->createQueryBuilder('u')
+//                    ->where('u.roles LIKE :user')
+//                    ->setParameter('user', '%"'.'ROLE_RETOUCHER'.'"%')
+//                    ->orderBy('u.username', 'ASC');
+//            },
+//            'choice_label' => function (User $user)
+//            {
+//                if ( strlen($user->getLastName()) > 0 )
+//                {
+//                    return $user->getFirstName().' '.$user->getLastName();
+//
+//                }
+//                else {
+//                    return $user->getUsername();
+//                }
+//            }
+//        ])
+        ;
     }
 
     /**

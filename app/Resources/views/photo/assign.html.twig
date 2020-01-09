@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block h2 %}
+    <h2 class="title">Przypisanie użytkowników do zdjęcia nr {{ photo.id }}</h2>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-6">
+            {{ form_start(edit_form) }}
+        {% if is_granted('ROLE_LEADER') %}
+            <p>Przypisany retuszer: {% if photo.assignedRetoucher != null %}{{ photo.assignedRetoucher.firstName }} {{ photo.assignedRetoucher.lastName }}{% endif %}</p>
+            {{ form_row(edit_form.assignedRetoucher) }}
+            <p>Przypisany webmaster: {% if photo.assignedWebmaster != null %}{{ photo.assignedWebmaster.firstName }} {{ photo.assignedWebmaster.lastName }}{% endif %}</p>
+            {{ form_row(edit_form.assignedWebmaster) }}
+        {% endif %}
+            <input type="submit" value="Zapisz" class="btn btn-success my-3">
+            {{ form_end(edit_form) }}
+
+            <div>
+                <a href="{{ path('_dashboard') }}" class="btn btn-danger mb-3"><i class="fas fa-chevron-left fa-mr"></i>Cofnij</a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

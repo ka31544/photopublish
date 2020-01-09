@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Photo;
 use AppBundle\Entity\StatusHistory;
 use AppBundle\Form\PhotoType;
+use AppBundle\Form\PhotoAssignType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -195,6 +196,26 @@ class PhotoController extends Controller
         }
 
         return $this->redirectToRoute('_dashboard');
+    }
+
+    public function assignAction(Request $request, Photo $photo)
+    {
+        $editForm = $this->createForm(PhotoAssignType::class, $photo);
+        $editForm->handleRequest($request);
+
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($photo);
+            $em->flush();
+
+            return $this->redirectToRoute('photo_show', array('id' => $photo->getId()));
+        }
+
+        return $this->render('photo/assign.html.twig', array(
+            'photo' => $photo,
+            'edit_form' => $editForm->createView(),
+        ));
     }
 
     /**
