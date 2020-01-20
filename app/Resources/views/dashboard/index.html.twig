@@ -10,7 +10,8 @@
             <h3 class="mb-3"><i class="fas fa-tasks fa-mr"></i>Twoje zadania</h3>
         {% if is_granted('ROLE_PHOTOGRAPHER') %}
             <div class="btn__container mb-5">
-                <a href="{{ path('photo_new') }}" class="btn btn__primary">Dodaj zdjęcie<i class="fas fa-upload fa-ml"></i></a>
+                <a href="{{ path('photo_new') }}" class="btn btn__primary">Dodaj zdjęcie
+                    <i class="fas fa-upload fa-ml"></i></a>
             </div>
             {% if photos2ForUser|length > 0 %}
             <h4>Niezaakceptowane</h4>
@@ -18,7 +19,8 @@
                 {% for photo in photos2ForUser %}
                 <div class="task__element">
                     <img src="{{ photo.src }}" alt="Zdjęcie zadania" class="task__img">
-                    <a href="{{ path('photo_show', { 'id': photo.id }) }}" class="btn btn-primary task__button">Kliknij</a>
+                    <a href="{{ path('photo_show', { 'id': photo.id }) }}" class="btn btn-primary task__button">
+                        Kliknij</a>
                 </div>
                 {% endfor %}
             </div>
@@ -29,7 +31,8 @@
                 {% for photo in photosForUser %}
                 <div class="task__element">
                     <img src="{{ photo.src }}" alt="Zdjęcie zadania" class="task__img">
-                    <a href="{{ path('photo_show', { 'id': photo.id }) }}" class="btn btn-primary task__button">Kliknij</a>
+                    <a href="{{ path('photo_show', { 'id': photo.id }) }}" class="btn btn-primary task__button">
+                        Kliknij</a>
                 </div>
                 {% endfor %}
             </div>

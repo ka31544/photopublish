@@ -31,11 +31,11 @@ class DashboardController extends Controller
         {
             $photosForUser = $this->photosForUser([
                 'activeStatus' => 2,
-//            'assignedRetoucher' => $user
+                'assignedRetoucher' => $user
             ]);
             $photos2ForUser = $this->photosForUser([
                 'activeStatus' => 6,
-//            'assignedRetoucher' => $user
+                'assignedRetoucher' => $user
             ]);
         }
         elseif (in_array('ROLE_ADMIN', $user->getRoles()))
@@ -51,7 +51,7 @@ class DashboardController extends Controller
         {
             $photosForUser = $this->photosForUser([
                 'activeStatus' => 5,
-//                'assignedWebmaster' => $user
+                'assignedWebmaster' => $user
             ]);
         }
 

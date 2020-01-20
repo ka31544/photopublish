@@ -28,7 +28,7 @@ class PhotoAssignType extends AbstractType
             },
             'choice_label' => function (User $user)
             {
-                if ( strlen($user->getLastName()) > 0 )
+                if ( strlen($user->getLastName()) > 0 or strlen($user->getFirstName()) > 0 )
                 {
                     return $user->getFirstName().' '.$user->getLastName();
 

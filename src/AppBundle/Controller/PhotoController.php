@@ -46,7 +46,7 @@ class PhotoController extends Controller
         //Pobranie zalogowanego użytkownika
         $user = $this->getLoggedUser();
 
-        //Ustawienie statusu zdjęcia na upload (id=1) oraz przypisanie się fotografa do zdjęcia
+        //Ustawienie statusu zdjęcia na zdjęcie do akceptacji (id=1) oraz przypisanie się fotografa do zdjęcia
         $status = $this->getDoctrine()->getManager()
             ->getRepository('AppBundle:Status')->find(1);
         $photo->setActiveStatus($status);
@@ -307,20 +307,19 @@ class PhotoController extends Controller
             ->getRepository('AppBundle:User')->find($userId);
     }
     private function acceptPhoto(Photo $photo, $statusId) {
-        //Ustawienie statusu zdjęcia na upload (id=1)
+        //Ustawienie aktywnego statusu zdjęcia
         $status = $this->getDoctrine()->getManager()
             ->getRepository('AppBundle:Status')->find($statusId);
         $photo->setActiveStatus($status);
 
-        //Wstawienie rekordu do historii statusu
-        $statusHistory = new StatusHistory();
-
+        //Pobranie zalogowanego użytkownika
         $user = $this->getLoggedUser();
 
+        //Utworzenie nowego obiektu StatusHistory
+        $statusHistory = new StatusHistory();
         $statusHistory->setPhoto($photo);
         $statusHistory->setStatus($status);
         $statusHistory->setUser($user);
-
 
         $em = $this->getDoctrine()->getManager();
         $entities = [$photo, $statusHistory];

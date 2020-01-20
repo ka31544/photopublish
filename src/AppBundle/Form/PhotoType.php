@@ -35,31 +35,8 @@ class PhotoType extends AbstractType
             'label_attr' => [
                 'class' => 'custom-file-label'
             ],
-//            'data_class' => null
-        ])
-//        ->add('assignedRetoucher', EntityType::class, [
-//            'label' => 'Przypisz retuszera',
-//            'class' => User::class,
-//            'query_builder' => function (UserRepository $er)
-//            {
-//                return $er->createQueryBuilder('u')
-//                    ->where('u.roles LIKE :user')
-//                    ->setParameter('user', '%"'.'ROLE_RETOUCHER'.'"%')
-//                    ->orderBy('u.username', 'ASC');
-//            },
-//            'choice_label' => function (User $user)
-//            {
-//                if ( strlen($user->getLastName()) > 0 )
-//                {
-//                    return $user->getFirstName().' '.$user->getLastName();
-//
-//                }
-//                else {
-//                    return $user->getUsername();
-//                }
-//            }
-//        ])
-        ;
+            'data_class' => null
+        ]);
     }
 
     /**
